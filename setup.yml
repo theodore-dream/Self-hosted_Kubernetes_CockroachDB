@@ -20,6 +20,24 @@
        dest: /usr/local/bin
        remote_src: yes
 
+   - name: copy Cockroach binary itself into path
+     ansible.builtin.copy:
+       src: /usr/local/bin/cockroach-v22.1.0.linux-amd64/cockroach
+       dest: /usr/local/bin
+       remote_src: yes
+
+   - name: copy GEOS libraries 1
+     ansible.builtin.copy:
+       src: /usr/local/bin/cockroach-v22.1.0.linux-amd64/lib/libgeos.so
+       dest: /usr/local/lib/cockroach/
+       remote_src: yes
+
+   - name: copy GEOS libraries 2
+     ansible.builtin.copy:
+       src: /usr/local/bin/cockroach-v22.1.0.linux-amd64/lib/libgeos_c.so
+       dest: /usr/local/lib/cockroach/
+       remote_src: yes
+
    - name: Stop systemd-timesyncd service
      ansible.builtin.systemd:
        name: systemd-timesyncd
