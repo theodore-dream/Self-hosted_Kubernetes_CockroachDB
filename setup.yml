@@ -1,0 +1,51 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+   - name: create CockroachDB libraries folder
+     file: path=/usr/local/lib/cockroach state=directory
+
+   - name: create temporary CockroachDB folder for unpacking tgz
+     file: path=/tmp/cockroach state=directory
+
+   - name: Download CockroachDB
+     get_url:
+       url: https://binaries.cockroachdb.com/cockroach-v22.1.0.linux-amd64.tgz
+       dest: /tmp/cockroach/cockroach-v22.1.0.linux-amd64.tgz
+       mode: '0755'
+
+   - name: extract CockroachDB.tgz into /usr/local/bin
+     ansible.builtin.unarchive:
+       src: /tmp/cockroach/cockroach-v22.1.0.linux-amd64.tgz
+       dest: /usr/local/bin
+       remote_src: yes
+
+   - name: Stop systemd-timesyncd service
+     ansible.builtin.systemd:
+       name: systemd-timesyncd
+       state: stopped
+
+   - name: install ntp
+     apt:
+       name: ntp
+       state: present
+       update_cache: true
+       force_apt_get: yes
+
+   - name: start ntpd service
+     ansible.builtin.systemd:
+       name: ntp
+       state: started
+       enabled: yes
+
+   - name: configure ntp servers to google
+     ansible.builtin.lineinfile:
+       path: /etc/ntp.conf
+       line: server time1.google.com iburst
+       state: present
+
+   - name: configure ntp servers to google
+     ansible.builtin.lineinfile:
+       path: /etc/ntp.conf
+       line: server time2.google.com iburst
+       state: present
