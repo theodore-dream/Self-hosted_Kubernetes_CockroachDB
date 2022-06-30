@@ -98,7 +98,7 @@ then you are ready to run the ansible script from the below tutorial
 
 # Kubernetes setup
 
-The setup of the Kubernetes environment was following this (tutorial)[https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-20-04]
+The setup of the Kubernetes environment was following this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-20-04)
 
 cluster overview:
 
